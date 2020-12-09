@@ -165,7 +165,7 @@
         if (window.WebSocket) {
             $(".setname").off().on("click", function () { // 绑定事件，当点击连接的时候才能进行聊天
                 
-                ws = new WebSocket("ws://106.13.71.10:8080");
+                ws = new WebSocket("ws://localhost:8080");
 
                 ws.onopen = () => {    //当连接时触发
                     $(".setname").attr("disabled", "true")

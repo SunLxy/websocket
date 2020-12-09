@@ -1,11 +1,11 @@
 let express = require("express")
 let path = require("path")
 
-const {servers} =require("./server")
+const { servers } =require("./server")
 
 let app = express()
 
-app.use(express.static(path.join(__dirname , "/public")))
+app.use(express.static(path.join(__dirname , "./")))
 
 //设置允许跨域
 app.all('*', function (req, res, next) {
@@ -18,9 +18,8 @@ app.all('*', function (req, res, next) {
     next();
 });
 
-
-app.get("/",function(req,res){
-    res.sendFile(path.join(__dirname , "/index.html"))
-})
+// app.get("/",function(req,res){
+//     res.sendFile(path.join(__dirname , "/index.html"))
+// })
 servers()
 app.listen(6666);
