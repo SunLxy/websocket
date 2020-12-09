@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>聊天室</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #case {
+            width: 650px;
+            min-height: 700px;
+            /* border: 3px solid red; */
+            float: left;
+            overflow: hidden;
+        }
+
+        #box {
+            width: 600px;
+            height: 500px;
+            border: 3px solid #ccc;
+            overflow: scroll;
+            padding: 10px;
+            font-size: 13px;
+            color: #666;
+
+        }
+
+        .con {
+            width: 600px;
+            height: 50px;
+            overflow: hidden;
+            margin: 50px 0;
+        }
+
+        .text1 {
+            width: 498px;
+            height: 46px;
+            float: left;
+            border: 1px solid #ccc;
+            font-size: 18px;
+        }
+
+        .btn1 {
+            width: 98px;
+            height: 50px;
+            color: red;
+            font-size: 18px;
+            float: left;
+            border: 1px solid #ccc;
+        }
+
+        .links {
+            width: 600px;
+            height: 36px;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .links .name {
+            width: 300px;
+            height: 30px;
+            float: left;
+        }
+
+        .links .setname,
+        .links .close {
+            float: left;
+            width: 96px;
+            height: 34px;
+            margin-right: 50px;
+            margin-left: 20px
+        }
+
+        .links .close {
+            margin-right: 0;
+        }
+
+        #header {
+            width: 100%;
+            height: 100px;
+            /* background: grey; */
+            text-align: center;
+            color: palegreen
+        }
+        #header h1{
+            height: 100px;
+            font-size: 80px;
+            line-height: 100px;
+        }
+        #online{
+            float: left;
+            width:230px;
+            height: 750px; 
+        }
+        #main{
+            padding-top:50px; 
+            width: 900px;
+            height: 750px;
+            /* border: 1px red solid; */
+            margin: 0 auto;
+        }
+        #online h3{
+            background: red;
+            text-align: center;
+        }
+        #online ul{
+            width: 226px;
+            height: 600px;
+            border: 2px #ccc solid;
+            overflow: auto;
+        }
+        #online h5 span{
+            color: red;            
+        }
+        #list li{
+            line-height: 30px;
+            color:blueviolet;
+            font-size: 16px;
+            padding-left: 10px;
+        }
+    </style>
+   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <h1>聊天室</h1>
+    </div>
+    <div id="main">
+        <div id="case">
+            <div class="links">
+                <input type="text" class="name" />
+                <button class="setname">连接</button>
+                <button class="close">关闭</button>
+            </div>
+            <div id="box"></div>
+            <div class="con">
+                <input type="text" class="text1" />
+                <button class="btn1">发送</button>
+            </div>
+        </div>
+        <div id="online">
+            <h3>成员</h3>
+            <h5>在线成员：<span>0</span></h5>
+            <ul id="list">
+                
+            </ul>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        $(".close").attr("disabled", "true")
+        $(".btn1").attr("disabled", "true")
+        $(".text1").attr("disabled", "true")
+        var ws=""
+        if (window.WebSocket) {
+            $(".setname").off().on("click", function () { // 绑定事件，当点击连接的时候才能进行聊天
+                
+                ws = new WebSocket("ws://106.13.71.10:8080");
+
+                ws.onopen = () => {    //当连接时触发
+                    $(".setname").attr("disabled", "true")
+                    $(".name").attr("disabled", "true")
+                    $(".close").removeAttr("disabled")
+                    $(".btn1").removeAttr("disabled")
+                    $(".text1").removeAttr("disabled")
+                    ws.send(JSON.stringify({  //连接成功向服务端发送登录名
+                        type: "setname",
+                        name: $(".name").val()  //名称
+                    }))
+                }
+                //发送聊天内容
+                $(".btn1").off().on("click", () => {
+                    console.log($(".text1").val())
+                    ws.send(JSON.stringify({
+                        type: "chat",
+                        text: $(".text1").val() //聊天内容
+                    }))
+                    $(".text1").val("")
+                })
+
+                //关闭连接
+                $(".close").off().on("click", () => {
+                    $(".setname").removeAttr("disabled")
+                    $(".name").removeAttr("disabled")
+                    $(".close").attr("disabled", "true")
+                    $(".btn1").attr("disabled", "true")
+                    $(".text1").attr("disabled", "true")
+                    ws.send(JSON.stringify({
+                        type: "close"
+                    }))
+                    ws.close();
+                    ws = ""
+                    $("#list").html("");
+                })
+
+                ws.onmessage = (e) => { //事件监听 ，服务器向客服端发送数据 
+                    let data = JSON.parse(e.data) //获取服务端发送的数据
+                    let setinfo = data.info;
+                    // let users = data.users;
+                    // $("#list").html("");
+                    // $("#online h5 span").text(users.length);
+                    // for(var i = 0 ; i < users.length ; i++){
+                    //     $("#list").append(`<li>${users[i]["name"]}</li>`)
+                    // }
+                    $("#box").append(`<p>${setinfo}</p>`)  //把获取的信息放入box块中 
+                    $("#box").scrollTop($("#box")[0].scrollHeight)
+                }
+
+            })
+        }
+
+    </script>
+</body>
+
+</html>
