@@ -5,7 +5,7 @@ const { servers } =require("./server")
 
 let app = express()
 
-app.use(express.static(path.join(__dirname , "./")))
+// app.use(express.static(path.join(__dirname , "./")))
 
 //设置允许跨域
 app.all('*', function (req, res, next) {
@@ -22,4 +22,4 @@ app.all('*', function (req, res, next) {
 //     res.sendFile(path.join(__dirname , "/index.html"))
 // })
 servers()
-app.listen(6666);
+// app.listen(6666);
