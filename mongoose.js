@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-mongoose.connect("mongodb://localhost:27017/chat",{useNewUrlParser:true})
+mongoose.connect("mongodb://39.102.117.54:27017/chat",{useNewUrlParser:true})
 const db = mongoose.connection; // 获取状态
 
 db.on("open",()=>{

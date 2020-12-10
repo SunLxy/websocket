@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>呵呵</title>
+    <title>聊天室</title>
     <style>
         * {
             margin: 0;
@@ -130,7 +130,7 @@
 
 <body>
     <div id="header">
-        <h1>呵呵</h1>
+        <h1>聊天室</h1>
     </div>
     <div id="main">
         <div id="case">
@@ -145,13 +145,13 @@
                 <button class="btn1">发送</button>
             </div>
         </div>
-        <!-- <div id="online">
+        <div id="online">
             <h3>成员</h3>
             <h5>在线成员：<span>0</span></h5>
             <ul id="list">
                 
             </ul>
-        </div> -->
+        </div>
     </div>
 
 
@@ -206,12 +206,12 @@
                 ws.onmessage = (e) => { //事件监听 ，服务器向客服端发送数据 
                     let data = JSON.parse(e.data) //获取服务端发送的数据
                     let setinfo = data.info;
-                    // let users = data.users;
-                    // $("#list").html("");
-                    // $("#online h5 span").text(users.length);
-                    // for(var i = 0 ; i < users.length ; i++){
-                    //     $("#list").append(`<li>${users[i]["name"]}</li>`)
-                    // }
+                    let users = data.users;
+                    $("#list").html("");
+                    $("#online h5 span").text(users.length);
+                    for(var i = 0 ; i < users.length ; i++){
+                        $("#list").append(`<li>${users[i]["name"]}</li>`)
+                    }
                     $("#box").append(`<p>${setinfo}</p>`)  //把获取的信息放入box块中 
                     $("#box").scrollTop($("#box")[0].scrollHeight)
                 }

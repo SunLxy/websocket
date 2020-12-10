@@ -1,7 +1,8 @@
 let express = require("express")
 let path = require("path")
 
-const { servers } =require("./server")
+// const { servers } =require("./server")
+const { servers } =require("./server2")
 
 let app = express()
 
@@ -19,7 +20,7 @@ app.all('*', function (req, res, next) {
 });
 
 // app.get("/",function(req,res){
-//     res.sendFile(path.join(__dirname , "/index.html"))
+//     res.sendFile(path.join(__dirname , "/index2.html"))
 // })
 servers()
-// app.listen(6666);
+// app.listen(6655);
