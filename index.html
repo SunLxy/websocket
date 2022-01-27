@@ -88,44 +88,51 @@
             text-align: center;
             color: palegreen
         }
-        #header h1{
+
+        #header h1 {
             height: 100px;
             font-size: 80px;
             line-height: 100px;
         }
-        #online{
+
+        #online {
             float: left;
-            width:230px;
-            height: 750px; 
+            width: 230px;
+            height: 750px;
         }
-        #main{
-            padding-top:50px; 
+
+        #main {
+            padding-top: 50px;
             width: 900px;
             height: 750px;
             /* border: 1px red solid; */
             margin: 0 auto;
         }
-        #online h3{
+
+        #online h3 {
             background: red;
             text-align: center;
         }
-        #online ul{
+
+        #online ul {
             width: 226px;
             height: 600px;
             border: 2px #ccc solid;
             overflow: auto;
         }
-        #online h5 span{
-            color: red;            
+
+        #online h5 span {
+            color: red;
         }
-        #list li{
+
+        #list li {
             line-height: 30px;
-            color:blueviolet;
+            color: blueviolet;
             font-size: 16px;
             padding-left: 10px;
         }
     </style>
-   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -149,7 +156,7 @@
             <h3>成员</h3>
             <h5>在线成员：<span>0</span></h5>
             <ul id="list">
-                
+
             </ul>
         </div>
     </div>
@@ -161,10 +168,10 @@
         $(".close").attr("disabled", "true")
         $(".btn1").attr("disabled", "true")
         $(".text1").attr("disabled", "true")
-        var ws=""
+        var ws = ""
         if (window.WebSocket) {
             $(".setname").off().on("click", function () { // 绑定事件，当点击连接的时候才能进行聊天
-                
+
                 ws = new WebSocket("ws://39.102.117.54:8080");
 
                 ws.onopen = () => {    //当连接时触发
@@ -209,7 +216,7 @@
                     let users = data.users;
                     $("#list").html("");
                     $("#online h5 span").text(users.length);
-                    for(var i = 0 ; i < users.length ; i++){
+                    for (var i = 0; i < users.length; i++) {
                         $("#list").append(`<li>${users[i]["name"]}</li>`)
                     }
                     $("#box").append(`<p>${setinfo}</p>`)  //把获取的信息放入box块中 
