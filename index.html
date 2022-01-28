@@ -172,7 +172,7 @@
         if (window.WebSocket) {
             $(".setname").off().on("click", function () { // 绑定事件，当点击连接的时候才能进行聊天
 
-                ws = new WebSocket("ws://39.102.117.54:8080");
+                ws = new WebSocket("ws://127.0.0.1:8888");
 
                 ws.onopen = () => {    //当连接时触发
                     $(".setname").attr("disabled", "true")
@@ -190,7 +190,10 @@
                     console.log($(".text1").val())
                     ws.send(JSON.stringify({
                         type: "chat",
-                        text: $(".text1").val() //聊天内容
+                        text: JSON.stringify({
+                            mes: "测速",
+                            log: JSON.stringify({ a: $(".text1").val() })
+                        }) //聊天内容
                     }))
                     $(".text1").val("")
                 })
@@ -212,15 +215,17 @@
 
                 ws.onmessage = (e) => { //事件监听 ，服务器向客服端发送数据 
                     let data = JSON.parse(e.data) //获取服务端发送的数据
-                    let setinfo = data.info;
-                    let users = data.users;
-                    $("#list").html("");
-                    $("#online h5 span").text(users.length);
-                    for (var i = 0; i < users.length; i++) {
-                        $("#list").append(`<li>${users[i]["name"]}</li>`)
-                    }
-                    $("#box").append(`<p>${setinfo}</p>`)  //把获取的信息放入box块中 
-                    $("#box").scrollTop($("#box")[0].scrollHeight)
+                    console.log(data)
+
+                    // let setinfo = data.info;
+                    // let users = data.users;
+                    // $("#list").html("");
+                    // $("#online h5 span").text(users.length);
+                    // for (var i = 0; i < users.length; i++) {
+                    //     $("#list").append(`<li>${users[i]["name"]}</li>`)
+                    // }
+                    // $("#box").append(`<p>${setinfo}</p>`)  //把获取的信息放入box块中 
+                    // $("#box").scrollTop($("#box")[0].scrollHeight)
                 }
 
             })

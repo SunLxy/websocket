@@ -2,7 +2,7 @@ let express = require("express")
 let path = require("path")
 
 // const { servers } =require("./server")
-const { servers } =require("./server2")
+const { servers } = require("./serverLog")
 
 let app = express()
 

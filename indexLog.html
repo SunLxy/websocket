@@ -12,19 +12,12 @@
 
 <body>
     <script>
-        const ws = new WebSocket("ws://127.0.0.1:8080");
-        ws.onopen = () => {    //当连接时触发
-
-        }
+        const ws = new WebSocket("ws://127.0.0.1:8888");
+        ws.onopen = () => { }
         ws.onmessage = (e) => { //事件监听 ，服务器向客服端发送数据 
             let data = JSON.parse(e.data) //获取服务端发送的数据
             console.log(data.mes, JSON.parse(data.log || "{}"))
         }
-        ws.send(JSON.stringify({
-            type: "chat",
-            text: JSON.stringify({ a: 21 })
-        }))
-
     </script>
 </body>
 

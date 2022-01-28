@@ -3,19 +3,13 @@ const servers = () => {
     const server = ws.createServer(async (conn) => {
         conn.on("text", (str) => { // 获取客服端发送的信息
             const data = JSON.parse(str); // 
+            console.log(str)
             switch (data.type) { //判断发送的信息，是哪类信息
                 case "setname":
-                    bases(JSON.stringify({
-                        mes: data.mes,
-                        log: data.data
-                    }))
-
+                    // bases(JSON.stringify(data.text))
                     break;
                 case "chat":
-                    bases(JSON.stringify({
-                        mes: data.mes,
-                        log: data.data
-                    }))
+                    bases(data.text)
                     break;
                 case "close":
                     conn.close();
