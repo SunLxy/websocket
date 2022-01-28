@@ -12,7 +12,7 @@
 
 <body>
     <script>
-        const ws = new WebSocket("ws://127.0.0.1:8888");
+        const ws = new WebSocket("ws://39.99.44.108:8888");
         ws.onopen = () => { }
         ws.onmessage = (e) => { //事件监听 ，服务器向客服端发送数据 
             let data = JSON.parse(e.data) //获取服务端发送的数据
